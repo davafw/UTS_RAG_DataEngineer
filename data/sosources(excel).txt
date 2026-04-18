@@ -1,0 +1,3 @@
+https://www.iea.org/data-and-statistics/data-product/global-ev-outlook-2025#global-ev-data
+https://www.iea.org/data-and-statistics/data-product/global-energy-review-dataset
+https://data360.worldbank.org/en/indicator/WB_WDI_EN_GHG_CO2_MT_CE_AR5

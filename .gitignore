@@ -23,6 +23,9 @@ __pycache__/
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
+my_vector_db/
+*.sqlite3
+
 # OS files
 .DS_Store
 Thumbs.db
