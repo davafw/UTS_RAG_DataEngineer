@@ -53,7 +53,7 @@ def baca_dokumen(file_path):
         print(f"⚠️ Format {ekstensi} diabaikan: {os.path.basename(file_path)}")
         return []
 
-def run_multi_indexing(folder_data, collection_name="edukasi_rag"):
+def run_multi_indexing(folder_data, collection_name="sustainable_transport"):
     # 1. Inisialisasi Database
     chroma_client = chromadb.PersistentClient(path="./my_vector_db")
     ef = get_embedding_functions()
@@ -101,6 +101,6 @@ def run_multi_indexing(folder_data, collection_name="edukasi_rag"):
 
 if __name__ == "__main__":
     # Ganti dengan folder tempat Anda menyimpan SEMUA file (PDF, CSV, Excel)
-    folder_path = r"C:\project-rag-uts_multi_doc_read\data"
+    folder_path = r"./data"
     
     run_multi_indexing(folder_path)
