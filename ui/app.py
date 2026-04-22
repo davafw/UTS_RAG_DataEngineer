@@ -1,185 +1,239 @@
-"""
-=============================================================
-ANTARMUKA STREAMLIT — EcoMobility Assistant
-=============================================================
-
-Jalankan dengan: streamlit run ui/app.py
-=============================================================
-"""
-
 import sys
-import os
 from pathlib import Path
-
-# Agar bisa import dari folder src/
-sys.path.append(str(Path(__file__).parent.parent / "src"))
-
 import streamlit as st
 from dotenv import load_dotenv
 
+# Setup path
+sys.path.append(str(Path(__file__).parent.parent / "src"))
 load_dotenv()
 
-# ─── Konfigurasi Halaman ──────────────────────────────────────────────────────
+# ─── CONFIG ─────────────────────────────────────────
 st.set_page_config(
-    page_title="🌿 EcoMobility Assistant",
+    page_title="EcoMobility Assistant",
     page_icon="🌿",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ─── Custom CSS ───────────────────────────────────────────────────────────────
+# ─── SESSION STATE ──────────────────────────────────
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+# Fungsi untuk membuat obrolan baru
+def start_new_chat():
+    if st.session_state.messages:
+        # Gunakan pesan pertama user sebagai judul
+        user_msg = [m["content"] for m in st.session_state.messages if m["role"] == "user"]
+        title = user_msg[0][:25] + "..." if user_msg else "Percakapan Lama"
+        
+        # Simpan ke riwayat
+        st.session_state.chat_history.append({
+            "title": title,
+            "messages": st.session_state.messages.copy()
+        })
+    # Reset pesan aktif
+    st.session_state.messages = []
+
+# ─── CSS (ADAPTIVE & MINIMALIST BUTTONS) ────────────
 st.markdown("""
 <style>
-    .main-title {
-        text-align: center;
-        color: #2ecc71;
-        font-size: 2.5rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    
+    html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+
+    /* --- SIDEBAR CUSTOMIZATION --- */
+    [data-testid="stSidebar"] { border-right: 1px solid rgba(128, 128, 128, 0.2); }
+
+    .sidebar-title { text-align: center; margin-bottom: 2rem; }
+    .sidebar-title .icon { font-size: 2.8rem; }
+    .sidebar-title .main { font-size: 1.4rem; font-weight: 700; color: #4CAF50; }
+    .sidebar-title .sub { font-size: 1rem; opacity: 0.7; }
+
+    /* Sidebar Card Style (Info, Tentang, Tips) */
+    .sidebar-card {
+        background-color: rgba(128, 128, 128, 0.05);
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 15px;
+        border: 1px solid rgba(128, 128, 128, 0.1);
     }
-    .subtitle {
-        text-align: center;
-        color: #95a5a6;
-        font-size: 1rem;
+    .card-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 10px; color: #4CAF50; }
+
+    /* --- ELEGANT BUTTON OVERRIDE --- */
+    /* Membuat tombol terlihat seperti kartu minimalis */
+    div.stButton > button {
+        background-color: rgba(128, 128, 128, 0.05) !important;
+        color: inherit !important;
+        border: 1px solid rgba(128, 128, 128, 0.1) !important;
+        border-radius: 12px !important;
+        padding: 0.7rem 1rem !important;
+        width: 100% !important;
+        text-align: left !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+        margin-bottom: 10px;
     }
-    .info-box {
-        background-color: #ecf0f1;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        margin: 1rem 0;
+
+    div.stButton > button:hover {
+        border-color: #4CAF50 !important;
+        color: #4CAF50 !important;
+        background-color: rgba(76, 175, 80, 0.05) !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+    }
+
+    /* --- MAIN UI --- */
+    .status-badge {
+        position: absolute; top: 20px; right: 20px;
+        background: rgba(128, 128, 128, 0.1);
+        padding: 5px 15px; border-radius: 20px; font-size: 0.8rem;
+        display: flex; align-items: center; gap: 8px;
+    }
+    .dot { height: 8px; width: 8px; background-color: #4CAF50; border-radius: 50%; box-shadow: 0 0 5px #4CAF50; }
+
+    .assistant-bubble {
+        background-color: rgba(76, 175, 80, 0.1);
+        border-radius: 20px; padding: 25px; margin: 20px 0;
+        border: 1px solid rgba(76, 175, 80, 0.2);
+        display: flex; gap: 20px;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# ─── Header ───────────────────────────────────────────────────────────────────
-st.markdown("<h1 class='main-title'>🌿 EcoMobility Assistant</h1>", unsafe_allow_html=True)
-st.markdown("<p class='subtitle'>Sistem Tanya-Jawab tentang Transportasi Berkelanjutan</p>", unsafe_allow_html=True)
-st.divider()
-
-# ─── Sidebar: Info & Konfigurasi ─────────────────────────────────────────────
+# ─── SIDEBAR ─────────────────────────────────────────
 with st.sidebar:
-    st.header("⚙️ Konfigurasi")
-
-    top_k = st.slider(
-        "📊 Jumlah dokumen relevan (top-k)",
-        min_value=1, max_value=10, value=3,
-        help="Berapa banyak chunk yang diambil dari vector database untuk konteks"
-    )
-
-    show_context = st.checkbox("📚 Tampilkan konteks yang digunakan", value=True)
-    show_prompt = st.checkbox("🔧 Tampilkan prompt ke LLM", value=False)
-
-    st.divider()
-    st.header("ℹ️ Info Sistem")
-
+    # Judul Sidebar
     st.markdown("""
-    **📌 Kelompok:** Dava, Arizal, Alivia
-    **🌍 Domain:** Transportasi Berkelanjutan & Mobilitas Ramah Lingkungan
-    **🤖 LLM:** Google Gemini 2.5 Flash
-    **💾 Vector DB:** ChromaDB
-    **🧬 Embedding:** SentenceTransformer (multilingual-MiniLM)
-    **📝 Stack:** From Scratch + LangChain Components
-    """)
+        <div class="sidebar-title">
+            <div class="icon">🌿</div>
+            <div class="main">EcoMobility</div>
+            <div class="sub">Assistant</div>
+        </div>
+    """, unsafe_allow_html=True)
+
+    # 1. Navigasi Obrolan (Tampilan baru yang elegan)
+    st.button("💬 Percakapan Baru", on_click=start_new_chat, use_container_width=True)
+    
+    # Dropdown atau list riwayat jika ada
+    if st.session_state.chat_history:
+        with st.expander("🕒 Riwayat Percakapan", expanded=False):
+            for i, chat in enumerate(reversed(st.session_state.chat_history)):
+                if st.button(f"📄 {chat['title']}", key=f"hist_{i}"):
+                    st.session_state.messages = chat['messages']
+                    st.rerun()
 
     st.divider()
-    st.info("💡 **Tip:** Mulai dengan pertanyaan spesifik tentang transportasi berkelanjutan. Contoh:\n- Apa itu kendaraan listrik?\n- Bagaimana cara mengurangi emisi transportasi?\n- Apa manfaat transportasi publik?")
 
+    # 2. Info Aplikasi (Tetap seperti sebelumnya)
+    st.markdown("""
+        <div class="sidebar-card">
+            <div class="card-title">ℹ️ Info Aplikasi</div>
+            <p style='font-size:0.85rem; opacity:0.8;'>Sistem tanya-jawab transportasi berkelanjutan.</p>
+        </div>
+    """, unsafe_allow_html=True)
 
-# ─── Load Vector Store (cached agar tidak reload setiap query) ───────────────
+    # 3. Konfigurasi (Tetap seperti sebelumnya)
+    st.markdown("### ⚙️ Konfigurasi")
+    top_k = st.slider("Jumlah dokumen relevan", 1, 10, 3)
+    show_context = st.toggle("Tampilkan konteks", True)
+    show_prompt = st.toggle("Tampilkan prompt", False)
+
+    # 4. Tentang Sistem (Tetap seperti sebelumnya)
+    st.markdown("""
+        <div class="sidebar-card">
+            <div class="card-title">📖 Tentang Sistem</div>
+            <ul style='font-size:0.82rem; padding-left:15px; opacity:0.8;'>
+                <li>*📌 Kelompok:* Dava, Arizal, Alivia</li>
+                <li>Transportasi Berkelanjutan</li>
+                <li>Gemini 1.5 Flash</li>
+                <li>ChromaDB</li>
+                <li>SentenceTransformer (multilingual-MiniLM)</li>
+                <li>From Scratch + LangChain Components</li>
+            </ul>
+        </div>
+    """, unsafe_allow_html=True)
+
+    # 5. Tips (Tetap seperti sebelumnya)
+    st.markdown("""
+        <div class="sidebar-card" style="background: rgba(76, 175, 80, 0.1);">
+            <div class="card-title">💡 Tips</div>
+            <p style='font-size:0.82rem; opacity:0.8;'>Gunakan pertanyaan spesifik untuk hasil terbaik.</p>
+        </div>
+    """, unsafe_allow_html=True)
+
+# ─── MAIN UI ─────────────────────────────────────────
+
+# Status Badge
+st.markdown('<div class="status-badge"><span class="dot"></span> Sistem Online</div>', unsafe_allow_html=True)
+
+# Header
+st.markdown("""
+    <div style="text-align: center; padding-top: 2rem;">
+        <div style="color: #4CAF50; font-size: 2.8rem; font-weight: 700;">🌿 EcoMobility Assistant</div>
+        <div style="opacity: 0.7; font-size: 1.1rem;">Sistem Tanya-Jawab Transportasi Berkelanjutan</div>
+    </div>
+""", unsafe_allow_html=True)
+
+# ─── LOAD DATA & CHAT LOGIC ──────────────────────────
 @st.cache_resource
 def load_vs():
-    """Load vector store sekali saja, di-cache untuk performa."""
     try:
         from query import load_vectorstore
         return load_vectorstore("sustainable_transport"), None
-    except FileNotFoundError as e:
-        return None, f"Vector database tidak ditemukan: {e}"
     except Exception as e:
-        return None, f"Error saat load vector store: {e}"
+        return None, str(e)
 
-
-# ─── Main Content ──────────────────────────────────────────────────────────────
 vectorstore, error = load_vs()
 
-if error:
-    st.error(f"⚠️ {error}")
-    st.info("""
-    **Solusi:**
-    1. Jalankan terlebih dahulu: `python src/indexing.py`
-    2. Pastikan folder `data/` berisi dokumen (PDF, CSV, Excel)
-    3. Restart aplikasi Streamlit
-    """)
-    st.stop()
+# Tampilan Selamat Datang jika chat kosong
+if not st.session_state.messages:
+    st.markdown("""
+        <div class="assistant-bubble">
+            <div style="font-size: 24px; background: rgba(255,255,255,0.2); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">🌿</div>
+            <div>
+                <strong>Halo! 👋</strong><br>
+                Saya EcoMobility Assistant, siap membantu Anda.<br><br>
+                Silakan ajukan pertanyaan Anda tentang mobilitas ramah lingkungan!
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
 
-st.success("✅ Vector database berhasil dimuat dan siap digunakan!")
-
-# ─── Chat Interface ───────────────────────────────────────────────────────────
-# Simpan riwayat chat di session state
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-# Tampilkan riwayat chat
+# Render pesan chat aktif
 for msg in st.session_state.messages:
-    with st.chat_message(msg["role"], avatar="🧑" if msg["role"] == "user" else "🤖"):
+    with st.chat_message(msg["role"], avatar="🧑" if msg["role"]=="user" else "🌿"):
         st.write(msg["content"])
-        if msg["role"] == "assistant" and show_context and "contexts" in msg:
-            with st.expander("📚 Konteks yang digunakan"):
-                for i, ctx in enumerate(msg["contexts"], 1):
-                    score_pct = int(ctx['score'] * 100)
-                    st.markdown(f"**[{i}] Relevansi: {score_pct}%** | `{ctx['source']}`")
-                    st.text(ctx["content"][:300] + "...")
-                    st.divider()
 
-# Input pertanyaan baru
-if question := st.chat_input("💬 Ketik pertanyaan Anda tentang transportasi berkelanjutan..."):
-
-    # Tampilkan pertanyaan user
+# Chat Input
+if question := st.chat_input("Tanyakan sesuatu..."):
     st.session_state.messages.append({"role": "user", "content": question})
     with st.chat_message("user", avatar="🧑"):
         st.write(question)
 
-    # Generate jawaban
-    with st.chat_message("assistant", avatar="🤖"):
-        with st.spinner("🔍 Mencari informasi relevan... 🤖 Menghasilkan jawaban..."):
-            try:
-                from query import answer_question
-                result = answer_question(question, vectorstore, top_k=top_k)
+    with st.chat_message("assistant", avatar="🌿"):
+        if error:
+            st.error(error)
+        else:
+            with st.spinner("Mencari jawaban..."):
+                try:
+                    from query import answer_question
+                    result = answer_question(question, vectorstore, top_k=top_k)
+                    st.write(result["answer"])
+                    
+                    st.session_state.messages.append({"role": "assistant", "content": result["answer"]})
+                    
+                    if show_context:
+                        with st.expander("📚 Konteks"):
+                            for ctx in result.get("contexts", []):
+                                st.caption(f"• {ctx['content'][:200]}...")
+                except Exception as e:
+                    st.error(f"Error: {e}")
 
-                st.write(result["answer"])
-
-                # Tampilkan konteks jika diaktifkan
-                if show_context:
-                    with st.expander("📚 Konteks yang digunakan"):
-                        for i, ctx in enumerate(result["contexts"], 1):
-                            score_pct = int(ctx['score'] * 100)
-                            st.markdown(f"**[{i}] Relevansi: {score_pct}%** | `{ctx['source']}`")
-                            st.text(ctx["content"][:300] + "...")
-                            st.divider()
-
-                # Tampilkan prompt jika diaktifkan
-                if show_prompt:
-                    with st.expander("🔧 Prompt yang dikirim ke LLM"):
-                        st.code(result["prompt"], language="text")
-
-                # Simpan ke riwayat
-                st.session_state.messages.append({
-                    "role": "assistant",
-                    "content": result["answer"],
-                    "contexts": result["contexts"]
-                })
-
-            except Exception as e:
-                error_msg = f"❌ Error: {e}\n\nPastikan:\n1. GEMINI_API_KEY sudah di-set di file `.env`\n2. Koneksi internet stabil\n3. Kuota API key tidak habis"
-                st.error(error_msg)
-                st.session_state.messages.append({"role": "assistant", "content": error_msg})
-
-# ─── Tombol Reset Chat ────────────────────────────────────────────────────────
-col1, col2, col3 = st.columns([1, 1, 1])
-with col2:
-    if st.button("🗑️ Hapus Riwayat Chat", use_container_width=True):
-        st.session_state.messages = []
-        st.rerun()
-
-st.divider()
-st.caption("🌿 EcoMobility Assistant — Sistem RAG untuk Transportasi Berkelanjutan | UTS Data Engineering")
-
+# Footer
+st.markdown("""
+    <hr style="opacity: 0.1;">
+    <center style="opacity: 0.5; font-size: 0.8rem; padding-bottom: 20px;">
+        EcoMobility Assistant — RAG Transportasi Berkelanjutan
+    </center>
+""", unsafe_allow_html=True)
