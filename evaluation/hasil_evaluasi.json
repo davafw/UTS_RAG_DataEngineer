@@ -1,0 +1,160 @@
+{
+  "metadata": {
+    "system_name": "EcoMobility Assistant",
+    "evaluation_date": "2026-04-23T10:35:54.749477",
+    "total_questions": 10,
+    "avg_score": 4.1
+  },
+  "results": [
+    {
+      "no": 1,
+      "pertanyaan": "Apa pengertian transportasi menurut UU Nomor 22 Tahun 2009?",
+      "jawaban_sistem": "Menurut UU Nomor 22 Tahun 2009 tentang Lalu Lintas dan Angkutan Jalan, transportasi adalah perpindahan orang dan/atau barang dari satu tempat ke tempat lain dengan menggunakan kendaraan di ruang lalu lintas jalan.",
+      "jawaban_ideal": "Perpindahan orang dan/atau barang dari satu tempat ke tempat lain dengan menggunakan kendaraan di ruang lalu lintas jalan.",
+      "skor_relevansi": 5,
+      "jumlah_sumber": 3,
+      "sumber_dokumen": [
+        "./data\\Wawasan Transportasi - Pertemuan 1-2 (2).pdf",
+        "./data\\144961-ID-menuju-terciptanya-sistem-transportasi-b.pdf",
+        "./data\\Menuju Terciptanya Sistem Transportasi Berkelanjutan.pdf"
+      ],
+      "catatan": "jawaban program sangat relevan dengan jawaban ideal dari referensi",
+      "timestamp": "2026-04-23T10:27:11.812638"
+    },
+    {
+      "no": 2,
+      "pertanyaan": "Apa penemuan pada tahun 3500 SM yang menjadi cikal bakal transportasi modern?",
+      "jawaban_sistem": "Penemuan pada tahun 3500 SM yang menjadi cikal bakal transportasi modern adalah **roda**.\n\nReferensi: Sejarah Transportasi (KONTEKS)",
+      "jawaban_ideal": "Penemuan roda",
+      "skor_relevansi": 5,
+      "jumlah_sumber": 3,
+      "sumber_dokumen": [
+        "./data\\Wawasan Transportasi - Pertemuan 1-2 (2).pdf",
+        "./data\\Wawasan Transportasi - Pertemuan 1-2 (2).pdf",
+        "./data\\Wawasan Transportasi - Pertemuan 1-2 (2).pdf"
+      ],
+      "catatan": "Jawaban sangat relevan dan akurat dengan jawaban ideal referensi",
+      "timestamp": "2026-04-23T10:28:40.533024"
+    },
+    {
+      "no": 3,
+      "pertanyaan": "Sebutkan tiga komponen utama yang saling terkait dalam transportasi berkelanjutan!",
+      "jawaban_sistem": "Tiga komponen utama yang saling terkait dalam transportasi berkelanjutan adalah:\n1.  **Lingkungan**: Mencakup pengurangan dampak negatif terhadap lingkungan, seperti polusi udara, emisi gas rumah kaca, dan penggunaan kendaraan yang ramah lingkungan.\n2.  **Masyarakat**: Berfokus pada keadilan sosial dan aksesibilitas, memastikan bahwa semua kelompok masyarakat memiliki akses.\n3.  **Ekonomi**: Transportasi berkelanjutan harus efisien dan mendukung pertumbuhan ekonomi lokal, serta investasi dalam infrastruktur transportasi yang baik.\n\n(Sumber: KONTEKS, \"Transportasi berkelanjutan melibatkan tiga komponen utama yang saling terkait\")",
+      "jawaban_ideal": "Lingkungan, masyarakat, dan ekonomi.",
+      "skor_relevansi": 5,
+      "jumlah_sumber": 3,
+      "sumber_dokumen": [
+        "./data\\Wawasan Transportasi - Pertemuan 5 new - Konsep dan Komponen (1).pdf",
+        "./data\\Wawasan Transportasi - Pertemuan 5 new - Konsep dan Komponen (1).pdf",
+        "./data\\Wawasan Transportasi - Pertemuan 5 new - Konsep dan Komponen (1).pdf"
+      ],
+      "catatan": "Jawaban sistem sangat relevan bahkan terdapat penjelasannya",
+      "timestamp": "2026-04-23T10:29:51.901496"
+    },
+    {
+      "no": 4,
+      "pertanyaan": "Apa kepanjangan dari istilah MKT atau TDM dalam manajemen transportasi?",
+      "jawaban_sistem": "Kepanjangan dari istilah MKT adalah **Manajemen Kebutuhan Transportasi**, sedangkan TDM adalah **Transport Demand Management**.\n\n(Sumber: Jurnal Transportasi Vol. 7 No. 2 Desember 2007: 87-104)",
+      "jawaban_ideal": "Manajemen Kebutuhan Transportasi atau Transport Demand Management",
+      "skor_relevansi": 5,
+      "jumlah_sumber": 3,
+      "sumber_dokumen": [
+        "./data\\Wawasan Transportasi - Pertemuan 5 new - Konsep dan Komponen (1).pdf",
+        "./data\\144961-ID-menuju-terciptanya-sistem-transportasi-b.pdf",
+        "./data\\Menuju Terciptanya Sistem Transportasi Berkelanjutan.pdf"
+      ],
+      "catatan": "Jawaban program relevan dengan jawaban ideal referensi",
+      "timestamp": "2026-04-23T10:31:19.489856"
+    },
+    {
+      "no": 5,
+      "pertanyaan": "Tantangan utama apa dalam transisi ke transportasi berkelanjutan di Indonesia?",
+      "jawaban_sistem": "Tantangan utama dalam transisi ke transportasi berkelanjutan di Indonesia meliputi beberapa aspek, yaitu:\n\n*   Infrastruktur yang belum merata.\n*   Kemacetan di perkotaan.\n*   Kurangnya aksesibilitas di daerah terpencil, yang menyebabkan banyak daerah masih terisolasi dan sulit dijangkau.\n*   Masalah pada sektor transportasi umum, seperti kurangnya armada, pelayanan yang tidak memadai, dan rendahnya tingkat keselamatan.\n\n(Sumber: KONTEKS)",
+      "jawaban_ideal": "Tantangan mencakup: infrastruktur charging terbatas, biaya investasi awal tinggi, kesadaran masyarakat masih rendah, terbatasnya pilihan kendaraan ramah lingkungan, dan kurangnya dukungan kebijakan yang konsisten.",
+      "skor_relevansi": 5,
+      "jumlah_sumber": 3,
+      "sumber_dokumen": [
+        "./data\\Wawasan Transportasi - Pertemuan 3-4 - Kondisi, Kendala dan Tantangan (1).pdf",
+        "./data\\Wawasan Transportasi - Pertemuan 3-4 - Kondisi, Kendala dan Tantangan (1).pdf",
+        "./data\\Wawasan Transportasi - Pertemuan 1-2 (2).pdf"
+      ],
+      "catatan": "Jawaban program akurat dan sesuai dengan referensi",
+      "timestamp": "2026-04-23T10:32:00.263845"
+    },
+    {
+      "no": 6,
+      "pertanyaan": "Berdasarkan data tahun 2025, provinsi mana di Indonesia yang memiliki jumlah total kendaraan bermotor paling banyak?",
+      "jawaban_sistem": "Berdasarkan KONTEKS yang diberikan, informasi mengenai data kendaraan bermotor tahun 2025 tidak tersedia di dalam dokumen. Konteks yang ada hanya menyediakan jumlah kendaraan bermotor tanpa menyebutkan tahun data tersebut.",
+      "jawaban_ideal": "Jawa Barat (dengan total lebih dari 28 juta unit)",
+      "skor_relevansi": 1,
+      "jumlah_sumber": 3,
+      "sumber_dokumen": [
+        "./data\\Jumlah Kendaraan Bermotor Menurut Provinsi dan Jenis Kendaraan (unit), 2025.csv",
+        "./data\\Jumlah Kendaraan Bermotor Menurut Provinsi dan Jenis Kendaraan (unit), 2025.csv",
+        "./data\\Jumlah Kendaraan Bermotor Menurut Provinsi dan Jenis Kendaraan (unit), 2025.csv"
+      ],
+      "catatan": "Program tidak bisa mendeteksi pertanyaan dikarenakan kurangnya informasi dan sulit untuk membaca referensi tersebut",
+      "timestamp": "2026-04-23T10:32:27.753376"
+    },
+    {
+      "no": 7,
+      "pertanyaan": "Apa kontribusi sektor transportasi terhadap perubahan iklim global?",
+      "jawaban_sistem": "Sektor transportasi memiliki kontribusi yang signifikan terhadap perubahan iklim global. Pertumbuhan transportasi penumpang perkotaan diperkirakan akan meningkatkan laju pertumbuhan emisi CO2. Mobilitas bermotor total di kota-kota diproyeksikan meningkat sebesar 94 persen antara tahun 2015 dan 2050, yang akan menyebabkan peningkatan global sebesar 26 persen dalam emisi CO2 yang dihasilkan dari pertumbuhan mobilitas perkotaan saja (ITF, 2017). Menahan pertumbuhan suhu rata-rata global hingga 2°C akan menjadi tantangan karena transportasi penumpang perkotaan diproyeksikan tumbuh sebesar 60 hingga 70 persen pada tahun 2050 dibandingkan dengan tingkat tahun 2015. (ITF, 2017; IEA, 2016).\n\n(Referensi: Halaman 41)",
+      "jawaban_ideal": "Transportasi menyumbang sekitar 24% dari emisi CO2 global, dengan mayoritas berasal dari transportasi jalan. Ini menjadikan sektor transportasi sebagai target penting dalam upaya mitigasi perubahan iklim.",
+      "skor_relevansi": 3,
+      "jumlah_sumber": 3,
+      "sumber_dokumen": [
+        "./data\\ITS for sustainable Mobility_E_pdf_web.pdf",
+        "./data\\ITS for sustainable Mobility_E_pdf_web.pdf",
+        "./data\\1922152E_WEB_light.pdf"
+      ],
+      "catatan": "Jawaban cukup relevan tetapi ada beberapa yang kurang",
+      "timestamp": "2026-04-23T10:33:25.293428"
+    },
+    {
+      "no": 8,
+      "pertanyaan": "Solusi transportasi apa yang cocok untuk daerah urban dengan kepadatan tinggi?",
+      "jawaban_sistem": "Berdasarkan KONTEKS yang diberikan, solusi transportasi yang cocok untuk daerah urban dengan kepadatan tinggi meliputi:\n\n*   **Optimalisasi multimoda jaringan rute angkutan penumpang umum perkotaan**, yang memastikan pemenuhan standar kualitas untuk setiap warga dengan biaya langsung dan eksternalitas (kecelakaan, polusi, kebisingan, waktu tempuh) sekecil mungkin.\n*   Menggunakan moda transportasi yang paling efisien seperti:\n    *   **Trem dan kereta ringan (light rail)**\n    *   **Kereta api perkotaan (urban railway)**\n    *   **Jalur bus khusus (dedicated bus lanes)**\n*   Menggunakan **jaringan trunk-feeder** dengan rute arteri frekuensi tinggi dan rute cakupan lokal.\n\n(Sumber: A Handbook on Sustainable Urban Mobility and Spatial – Planning Promoting Active Mobility, halaman 180)",
+      "jawaban_ideal": "Bus rapid transit (BRT), metro ringan (LRT), angkutan personal yang ramah lingkungan, bike-sharing, pedestrian-friendly infrastructure, dan integrated multimodal transportation system.",
+      "skor_relevansi": 5,
+      "jumlah_sumber": 3,
+      "sumber_dokumen": [
+        "./data\\1922152E_WEB_light.pdf",
+        "./data\\1922152E_WEB_light.pdf",
+        "./data\\1922152E_WEB_light.pdf"
+      ],
+      "catatan": "Jawaban sangat relevan bahkan ada penjelasannya juga",
+      "timestamp": "2026-04-23T10:33:50.757945"
+    },
+    {
+      "no": 9,
+      "pertanyaan": "Bagaimana polisi transportasi mempengaruhi adopsi kendaraan ramah lingkungan?",
+      "jawaban_sistem": "Informasi mengenai bagaimana polisi transportasi secara spesifik mempengaruhi adopsi kendaraan ramah lingkungan tidak tersedia secara langsung dan detail di dalam dokumen yang diberikan.\n\nDokumen menyebutkan bahwa aspek lingkungan dari transportasi berkelanjutan mencakup \"penggunaan kendaraan yang ramah lingkungan.\" (Referensi: Lingkungan, Transportasi berkelanjutan melibatkan tiga komponen utama).\n\nSelain itu, dokumen juga menjelaskan bahwa \"polisi transportasi yang rasional\" mencakup:\n*   \"langkah-langkah fiskal dan organisasi yang membuat perjalanan mobil sehari-hari ke pusat kota lebih mahal dan tidak nyaman.\"\n*   \"Internalisasi eksternalitas\" yang menyelaraskan biaya pengguna perjalanan jalan perkotaan dengan jumlah penuh biaya aktual termasuk biaya sosial dan lingkungan. (Referensi: tools used to ensure a rational transport policy encompass fiscal and organizational measures..., Internalization of externalities...)\n\nMeskipun kebijakan ini bertujuan untuk mengurangi dampak negatif transportasi dan membuat penggunaan mobil lebih mahal/tidak nyaman, dokumen tidak menjelaskan secara eksplisit bagaimana langkah-langkah ini secara langsung mendorong atau mempengaruhi adopsi kendaraan ramah lingkungan.",
+      "jawaban_ideal": "Kebijakan seperti: insentif pajak untuk EV, larangan kendaraan berbahan bakar fosil tertentu, standar emisi ketat, investasi infrastruktur charging, dan subsidi untuk transportasi publik mendorong transisi hijau.",
+      "skor_relevansi": 2,
+      "jumlah_sumber": 3,
+      "sumber_dokumen": [
+        "./data\\Wawasan Transportasi - Pertemuan 5 new - Konsep dan Komponen (1).pdf",
+        "./data\\1922152E_WEB_light.pdf",
+        "./data\\Wawasan Transportasi - Pertemuan 3-4 - Kondisi, Kendala dan Tantangan (1).pdf"
+      ],
+      "catatan": "Jawaban kurang relevan, banyak informasi yang salah",
+      "timestamp": "2026-04-23T10:35:37.113890"
+    },
+    {
+      "no": 10,
+      "pertanyaan": "Apa tujuan utama dari sistem transportasi berkelanjutan?",
+      "jawaban_sistem": "Tujuan utama dari sistem transportasi berkelanjutan adalah untuk menciptakan sistem yang tidak hanya memenuhi kebutuhan mobilitas tetapi juga meminimalkan dampak negatif terhadap lingkungan dan meningkatkan kualitas hidup bagi masyarakat secara keseluruhan. (Sumber: Paragraf terakhir dalam KONTEKS)",
+      "jawaban_ideal": "Menciptakan sistem yang memenuhi kebutuhan mobilitas sekaligus meminimalkan dampak negatif terhadap lingkungan dan meningkatkan kualitas hidup masyarakat.",
+      "skor_relevansi": 5,
+      "jumlah_sumber": 3,
+      "sumber_dokumen": [
+        "./data\\144961-ID-menuju-terciptanya-sistem-transportasi-b.pdf",
+        "./data\\Menuju Terciptanya Sistem Transportasi Berkelanjutan.pdf",
+        "./data\\Wawasan Transportasi - Pertemuan 5 new - Konsep dan Komponen (1).pdf"
+      ],
+      "catatan": "Jawaban sngat relevan dan akurat dengan jawaban ideal dari referensi",
+      "timestamp": "2026-04-23T10:35:54.746287"
+    }
+  ]
+}

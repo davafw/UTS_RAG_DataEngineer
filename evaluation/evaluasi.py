@@ -1,13 +1,9 @@
 """
-=============================================================
 EVALUATION FRAMEWORK - EcoMobility Assistant
-=============================================================
-
-Script untuk evaluasi performa sistem RAG dengan 10 pertanyaan test
+Evaluasi performa sistem RAG dengan 10 pertanyaan test
 Hasil evaluasi disimpan dalam format yang bisa diexport ke Excel/CSV
 
-Jalankan dengan: python evaluation/evaluasi.py
-=============================================================
+python evaluation/evaluasi.py
 """
 
 import sys
@@ -15,6 +11,7 @@ import os
 from pathlib import Path
 from datetime import datetime
 import json
+import csv
 
 # Setup path agar bisa import dari src
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -150,17 +147,19 @@ class RAGEvaluator:
             bar = "█" * count
             print(f"  {score}⭐ : {bar} ({count})")
 
-    def export_results(self, output_path="evaluation/hasil_evaluasi.json"):
-        """Export hasil evaluasi ke JSON"""
+    # Export hasil evaluasi ke JSON
+    def export_json(self, output_path="evaluation/hasil_evaluasi.json"):
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+        scored = [r["skor_relevansi"] for r in self.results if r.get("skor_relevansi")]
+        avg_score = sum(scored) / len(scored) if scored else 0
 
         export_data = {
             "metadata": {
                 "system_name": "EcoMobility Assistant",
-                "domain": "Sustainable Transportation",
                 "evaluation_date": datetime.now().isoformat(),
                 "total_questions": len(self.results),
-                "avg_score": sum([r.get("skor_relevansi", 0) for r in self.results if r.get("skor_relevansi")]) / max(1, len([r for r in self.results if r.get("skor_relevansi")])),
+                "avg_score": avg_score
             },
             "results": self.results
         }
@@ -168,34 +167,76 @@ class RAGEvaluator:
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(export_data, f, indent=2, ensure_ascii=False)
 
-        print(f"\n✅ Hasil evaluasi disimpan ke: {output_path}")
+        print(f"✅ JSON disimpan: {output_path}")
+        # Export hasil evaluasi ke CSV
+    def export_results(self, output_path="evaluation/hasil_evaluasi.csv"):
+        """Export hasil evaluasi ke CSV + rata-rata skor"""
+
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+        # Hitung rata-rata skor
+        scored = [r["skor_relevansi"] for r in self.results if r.get("skor_relevansi")]
+        avg_score = sum(scored) / len(scored) if scored else 0
+
+        # Header CSV
+        fieldnames = [
+            "no",
+            "pertanyaan",
+            "jawaban_sistem",
+            "jawaban_ideal",
+            "skor_relevansi",
+            "jumlah_sumber",
+            "sumber_dokumen",
+            "catatan",
+            "timestamp"
+        ]
+
+        with open(output_path, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+
+            for r in self.results:
+                if r:
+                    # ubah list sumber jadi string
+                    r["sumber_dokumen"] = ", ".join(r["sumber_dokumen"])
+                    writer.writerow(r)
+
+            # Tambah baris rata-rata di bawah
+            writer.writerow({})
+            writer.writerow({
+                "pertanyaan": "RATA-RATA SKOR",
+                "skor_relevansi": f"{avg_score:.2f}"
+            })
+
+        print(f"\n✅ Hasil evaluasi disimpan ke CSV: {output_path}")
+        print(f"⭐ Rata-rata skor: {avg_score:.2f}")
 
 
-# Test questions yang direkomendasikan untuk Sustainable Transportation
+# Test questions dan jawaban ideal untuk evaluasi
 TEST_QUESTIONS = [
     (
-        "Apa yang dimaksud dengan transportasi berkelanjutan?",
-        "Transportasi berkelanjutan adalah sistem transportasi yang dapat memenuhi kebutuhan mobilitas saat ini tanpa mengorbankan kemampuan generasi mendatang, dengan fokus pada efisiensi energi dan minimalisasi dampak lingkungan."
+        "Apa pengertian transportasi menurut UU Nomor 22 Tahun 2009?",
+        "Perpindahan orang dan/atau barang dari satu tempat ke tempat lain dengan menggunakan kendaraan di ruang lalu lintas jalan."
     ),
     (
-        "Bagaimana cara mengurangi emisi karbon dari sektor transportasi?",
-        "Dapat dilakukan melalui: transisi ke kendaraan listrik, penggunaan bahan bakar alternatif, peningkatan transportasi publik, optimasi rute perjalanan, dan promosi moda transportasi aktif seperti bersepeda."
+        "Apa penemuan pada tahun 3500 SM yang menjadi cikal bakal transportasi modern?",
+        "Penemuan roda"
     ),
     (
-        "Apa itu kendaraan listrik (EV) dan apa keuntungannya dibanding kendaraan konvensional?",
-        "EV adalah kendaraan yang menggunakan motor listrik sebagai penggeraknya. Keuntungan: emisi nol saat digunakan, biaya operasional lebih rendah, suara lebih senyap, dan performa torsi yang lebih baik."
+        "Sebutkan tiga komponen utama yang saling terkait dalam transportasi berkelanjutan!",
+        "Lingkungan, masyarakat, dan ekonomi."
     ),
     (
-        "Peran apa yang dimainkan transportasi publik dalam mencapai mobilitas berkelanjutan?",
-        "Transportasi publik mengurangi jumlah kendaraan pribadi, menurunkan emisi per penumpang, menghemat energi, mengurangi kemacetan, dan meningkatkan aksesibilitas untuk semua segmen masyarakat."
+        "Apa kepanjangan dari istilah MKT atau TDM dalam manajemen transportasi?",
+        "Manajemen Kebutuhan Transportasi atau Transport Demand Management"
     ),
     (
         "Tantangan utama apa dalam transisi ke transportasi berkelanjutan di Indonesia?",
         "Tantangan mencakup: infrastruktur charging terbatas, biaya investasi awal tinggi, kesadaran masyarakat masih rendah, terbatasnya pilihan kendaraan ramah lingkungan, dan kurangnya dukungan kebijakan yang konsisten."
     ),
     (
-        "Bagaimana teknologi membantu dalam pengembangan transportasi berkelanjutan?",
-        "Teknologi mendukung melalui: IoT untuk optimasi traffic, AI untuk prediksi demand, smart grid untuk charging, autonomous vehicles untuk efisiensi, dan platform sharing economy untuk utilisasi kendaraan maksimal."
+        "Berdasarkan data tahun 2025, provinsi mana di Indonesia yang memiliki jumlah total kendaraan bermotor paling banyak?",
+        "Jawa Barat (dengan total lebih dari 28 juta unit)"
     ),
     (
         "Apa kontribusi sektor transportasi terhadap perubahan iklim global?",
@@ -210,8 +251,8 @@ TEST_QUESTIONS = [
         "Kebijakan seperti: insentif pajak untuk EV, larangan kendaraan berbahan bakar fosil tertentu, standar emisi ketat, investasi infrastruktur charging, dan subsidi untuk transportasi publik mendorong transisi hijau."
     ),
     (
-        "Apa peluang bisnis dalam ekonomi transportasi berkelanjutan?",
-        "Peluang: produksi EV dan komponen, infrastruktur charging, battery technology, layanan mobility-as-a-service (MaaS), financing solutions, dan smart traffic management systems."
+        "Apa tujuan utama dari sistem transportasi berkelanjutan?",
+        "Menciptakan sistem yang memenuhi kebutuhan mobilitas sekaligus meminimalkan dampak negatif terhadap lingkungan dan meningkatkan kualitas hidup masyarakat."
     ),
 ]
 
@@ -223,6 +264,7 @@ if __name__ == "__main__":
     evaluator.run_evaluation(TEST_QUESTIONS)
 
     # Export results
+    evaluator.export_json()
     evaluator.export_results()
 
     print("\n✅ Evaluasi selesai!")
