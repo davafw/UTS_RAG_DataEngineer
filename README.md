@@ -84,6 +84,9 @@ rag-ecomobility-uts/
 │   ├── Wawasan Transportasi - Pertemuan 3-4 - Kondisi, Kendala dan Tantangan (1).pdf
 │   ├── Wawasan Transportasi - Pertemuan 5 new - Konsep dan Komponen (1).pdf
 │   └── Wawasan Transportasi - Pertemuan 6-7 (3).pdf
+├── docs/
+│   ├── Arsitektur sistem Ecomobility Assistant.png
+│   └── Laporan RAG Ecomobility Assistant.pdf
 ├── src/
 │   ├── indexing.py                # 🔧 Pipeline indexing (document loader + chunking)
 │   ├── query.py                   # 🔧 Pipeline query (retrieval + generation)
@@ -93,6 +96,7 @@ rag-ecomobility-uts/
 │   └── app.py                     # 🔧 Streamlit interface
 ├── evaluation/
 │   ├── evaluasi.py                # 📊 Evaluation framework untuk 10 pertanyaan
+│   ├── hasil_evaluasi.csv                
 │   └── hasil_evaluasi.json        # Hasil evaluasi (auto-generated)
 ├── my_vector_db/                  # ChromaDB persistent storage
 ├── .env.example                   # Template environment variables
